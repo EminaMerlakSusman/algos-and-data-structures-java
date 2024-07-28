@@ -1,0 +1,17 @@
+package dn_2;
+
+import java.util.ArrayList;
+
+public class User {
+	String username;
+	int birthday;
+	int num_watched;
+	ArrayList<int[]> intervals_watched;
+	
+	public User(String username, int birthday, int num_watched, ArrayList<int[]> intervals_watched) {
+    	this.username = username;
+    	this.birthday = birthday;
+    	this.num_watched = num_watched;
+    	this.intervals_watched=intervals_watched;
+    }
+}

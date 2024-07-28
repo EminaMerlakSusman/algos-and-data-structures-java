@@ -1,0 +1,10 @@
+package dn_2;
+
+import java.util.ArrayList;
+
+public class User {
+	String username;
+	int birthday;
+	int num_watched;
+	ArrayList<int[]> intervals_watched;
+}

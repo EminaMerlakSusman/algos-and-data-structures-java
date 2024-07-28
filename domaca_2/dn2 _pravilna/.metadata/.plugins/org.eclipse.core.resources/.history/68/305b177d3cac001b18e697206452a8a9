@@ -1,0 +1,181 @@
+package dn_2;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+class Pair
+{
+	Integer key;
+	Integer value;
+	
+	public Pair(Integer key, Integer value)
+	{
+		this.key = key;
+		this.value = value;
+	}
+	public Integer getKey()
+	{
+		return key;
+	}
+	public void setKey(Integer key)
+	{
+		this.key = key;
+	}
+	public Integer getValue()
+	{
+		return value;
+	}
+	public void setValue(Integer value)
+	{
+		this.value = value;
+	}
+}
+
+
+public class Resitev {
+	
+	public ArrayList<Integer> closestNeigbours(ArrayList<Integer> arr, int query) {
+		// najblizji sosedi
+		
+		
+		int n = 6;
+		
+		// max heap razlik s prvimi 5 elementi
+		PriorityQueue<Pair> pq = new PriorityQueue<>(
+								new Comparator<Pair>()
+		{
+			public int compare(Pair p1, Pair p2)
+			{
+				return p2.getValue().compareTo(
+					p1.getValue());
+			}
+		});
+		
+		// Build heap of difference with
+		// first k elements
+		for(int i = 0; i < 5; i++)
+		{
+			pq.offer(new Pair(arr.get(i),
+					Math.abs(arr.get(i) - query)));
+		}
+		
+		// Now process remaining elements.
+		for(int i = 5; i < n; i++)
+		{
+			int diff = Math.abs(arr.get(i) - query);
+			
+			// If difference with current
+			// element is more than root,
+			// then ignore it.
+			if(diff > pq.peek().getValue()) continue;
+			
+			// Else remove root and insert
+			pq.poll();
+			pq.offer(new Pair(arr.get(i), diff));
+		}
+		
+		// fill arraylist with contents of heap
+		
+		ArrayList<Integer> closest_neighbours = new ArrayList<Integer>();
+		while(!pq.isEmpty())
+		{
+			closest_neighbours.add(pq.poll().getKey());
+		}
+		
+		return closest_neighbours;
+		}
+	
+		
+	
+	
+	public static void resi(String vhodnaDatoteka, String izhodnaDatoteka) throws Exception {
+		
+		File inputFile = new File(vhodnaDatoteka);
+		File outputFile = new File(izhodnaDatoteka);
+	
+		// read D, P, I
+		BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+		Scanner s = new Scanner(inputFile);
+		
+		int D = s.nextInt();
+		int P = s.nextInt();
+		int I = s.nextInt();
+		
+		User[] database = new User[100000000];
+		boolean[] delete_list = new boolean[100000000];
+		
+		for (int i=0; i<=D+I; i++) {
+			String type = s.next();
+			String username = s.next();
+			String birthday = s.next();			
+			
+			if (type.equals("dodaj")) {
+				int num_watched = s.nextInt();
+				ArrayList<int[]> intervals_watched = new ArrayList<int[]>();
+				for (int j=0; j<=num_watched; j++) {
+					int st = s.nextInt();
+					int end = s.nextInt();
+					int[] interval = {st, end};
+					intervals_watched.add(interval);
+				}
+				
+				User user = new User(username, birthday, num_watched, intervals_watched);
+				int insertion_index = user.username.hashCode();
+				database[insertion_index] = user;
+			}
+			
+			else if(type.equals("odstrani")) {
+				System.out.println("blabla");
+				int hash_value = username.hashCode();
+				System.out.println(hash_value);
+				System.out.print("pointer");
+				delete_list[hash_value] = true;
+				
+			}
+		}
+		
+		
+		
+			
+		// prekrivanje intervalov
+		int[] interval = {5, 10};
+		Node root = new Node(interval);
+		System.out.println(root.left_child);
+		
+		IntervalTree interval_tree = new IntervalTree(root);
+		System.out.println(interval_tree.maxOfSubtree(root, null));
+		
+		int[] new_interval = {3, 7};
+		Node new_node = new Node(new_interval);
+		interval_tree.addNode(new_node);
+		System.out.println(interval_tree.root.left_child);
+		System.out.println(interval_tree.maxOfSubtree(root, null));
+		System.out.println(interval_tree.root.left_child.max);
+		
+		System.out.println("adding right node");
+		int[] right_interval = {6, 100};
+		Node right_node = new Node(right_interval);
+		interval_tree.addNode(right_node);
+		System.out.println(interval_tree.root.right_child);
+		System.out.println(interval_tree.maxOfSubtree(root, null));
+		System.out.println(interval_tree.root.max);
+		Node compare_node = new Node(new int[] {5, 10});
+		interval_tree.addNode(new Node(new int[] {2, 4}));
+		
+		interval_tree.constructMax();
+		System.out.println(interval_tree.findOverlappingIntervals(new Node(new int[] {50, 60})));
+		System.out.println(interval_tree.maxOfSubtree(root, null));
+		
+		
+		s.close();
+		writer.close();
+
+	}
+	
+}
+

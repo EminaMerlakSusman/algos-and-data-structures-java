@@ -1,0 +1,14 @@
+package dn_2;
+
+
+public class Interval {
+	Integer start;
+
+    Integer end;
+    
+    public Interval(Integer start, Integer end) {
+    	
+    	this.start = start;
+    	this.end = end;
+    }
+}

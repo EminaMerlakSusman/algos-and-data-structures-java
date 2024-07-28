@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+C:\Users\Emina\Desktop\icons\domace\dn2 _pravilna\.metadata\.plugins\org.eclipse.jdt.core
+943211442.index
+789344348.index
